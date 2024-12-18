@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>Benvenuto, <strong>{{ username }}</strong>!</p>
+
+    <div class="columns-container">
+        <!-- Colonna Risorse disponibili -->
+        <div class="column">
+            <h2>Risorse disponibili</h2>
+            <ul class="resource-list">
+                {% for resource in resources %}
+                    <li>
+                        <a href="{{ url_for('download_file', folder='resources', filename=resource) }}">
+                            {{ resource }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Colonna Risorse Operative (solo per utenti operatives) -->
+        {% if extra_resources %}
+        <div class="column">
+            <h2>Risorse Operative</h2>
+            <ul class="resource-list">
+                {% for resource in extra_resources %}
+                    <li>
+                        <a href="{{ url_for('download_file', folder='operative_resources', filename=resource) }}">
+                            {{ resource }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+        <a href="{{ url_for('home') }}">
+            <button>Vai alla Home</button>
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <button>Logout</button>
+        </a>
+    </div>
+{% endblock %}
