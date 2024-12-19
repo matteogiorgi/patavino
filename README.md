@@ -11,7 +11,7 @@ For the moment, the app contains home, login and dashboard pages and can be test
 
 
 #### TODO
-- [ ] add a register page
+- [ ] add a registration page
 - [ ] add a password recovery page
 - [ ] encrypt passwords
 - [ ] new graphic interface
