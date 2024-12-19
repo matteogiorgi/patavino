@@ -46,10 +46,16 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    return render_template(
-        "home.html",
-        username=current_user.username if current_user.is_authenticated else None,
+    response = make_response(
+        render_template(
+            "home.html",
+            username=current_user.username if current_user.is_authenticated else None,
+        )
     )
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route("/login", methods=["GET", "POST"])
