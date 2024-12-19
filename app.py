@@ -74,7 +74,11 @@ def login():
 @login_required
 def logout():
     logout_user()  # Effettua il logout dell'utente
-    return redirect(url_for("home"))  # Reindirizza alla pagina di home
+    response = redirect(url_for("home"))  # Reindirizza alla pagina di home
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route("/dashboard")
@@ -90,12 +94,18 @@ def dashboard():
         else []
     )
 
-    return render_template(
-        "dashboard.html",
-        resources=resources,
-        extra_resources=operative_resources,
-        username=current_user.username,
+    response = make_response(
+        render_template(
+            "dashboard.html",
+            resources=resources,
+            extra_resources=operative_resources,
+            username=current_user.username,
+        )
     )
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route("/download/<folder>/<filename>")
@@ -113,7 +123,11 @@ def download_file(folder, filename):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect(url_for("login"))
+    response = redirect(url_for("login"))
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 if __name__ == "__main__":
