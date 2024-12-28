@@ -19,12 +19,16 @@ from flask_login import (
 )
 
 app = Flask(__name__)
+
+# Configurazione della chiave segreta e del database
 app.config["SECRET_KEY"] = "supersecret"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
-app.config["RESOURCES_FOLDER"] = "resources"  # Directory dove sono salvate le risorse
-app.config["OPERATIVE_RESOURCES_FOLDER"] = (
-    "operative_resources"  # Directory per risorse operative
-)
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config["RESOURCES_FOLDER"] = os.path.join(BASE_DIR, "resources")
+app.config["OPERATIVE_RESOURCES_FOLDER"] = os.path.join(BASE_DIR, "operative_resources")
+
+# Creazione delle directory se non esistono
 os.makedirs(app.config["RESOURCES_FOLDER"], exist_ok=True)
 os.makedirs(app.config["OPERATIVE_RESOURCES_FOLDER"], exist_ok=True)
 
